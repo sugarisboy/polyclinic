@@ -10,10 +10,10 @@ class CommandRandomPatient < Command
   def initialize
     super
     @numeric_code = 1
+    @name = 'Случайный пациент'
   end
 
   def execute(data)
-    puts data.sample
     puts data.sample.info
   end
 end

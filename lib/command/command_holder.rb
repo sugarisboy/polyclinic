@@ -30,4 +30,18 @@ class CommandHolder
   def numeric_codes
     @commands.map(&:numeric_code)
   end
+
+  def command_info
+    @commands.map do |command|
+      code = command.numeric_code
+      name = command.name
+      format(
+        '  %<code>d. %<name>s',
+        {
+          code: code,
+          name: name
+        }
+      )
+    end.join("\n")
+  end
 end

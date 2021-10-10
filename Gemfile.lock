@@ -2,9 +2,6 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    debase (0.2.4.1)
-      debase-ruby_core_source (>= 0.10.2)
-    debase-ruby_core_source (0.10.12)
     parallel (1.21.0)
     parser (3.0.2.0)
       ast (~> 2.4.1)
@@ -27,9 +24,9 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  x64-mingw32
 
 DEPENDENCIES
-  debase
   rubocop
 
 BUNDLED WITH

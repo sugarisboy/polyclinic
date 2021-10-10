@@ -4,11 +4,6 @@
 class Period
   DATE_FORMAT_STR = '%Y-%m-%d'
 
-  def time_to_s(time)
-    time.strftime(DATE_FORMAT_STR)
-  end
-
-  private :time_to_s
   attr_reader :start, :finish
 
   def initialize(start, finish)
@@ -27,6 +22,27 @@ class Period
   def to_s
     start = start_to_s
     finish = finish_to_s
-    format('Period[start=%s;finish=%s]', start, finish)
+    format(
+      'Period[start=%<start>s;finish=%<finish>s;diff=%<diff>s]',
+      {
+        start: start,
+        finish: finish,
+        diff: days_count
+      }
+    )
+  end
+
+  def end_year?(year)
+    finish.year == year
+  end
+
+  def days_count
+    (finish - start).round(half: :down) + 1
+  end
+
+  private
+
+  def time_to_s(time)
+    time.strftime(DATE_FORMAT_STR)
   end
 end
