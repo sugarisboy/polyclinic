@@ -1,22 +1,26 @@
-require_relative 'gui'
-require_relative 'utils/io_utils'
-require_relative 'model/sick_list'
-require_relative 'command/command_holder'
-require_relative 'command/command_random_patient'
-require_relative 'model/period'
+# frozen_string_literal: true
+
+require_relative '../lib/gui'
+require_relative '../lib/utils/io_utils'
+require_relative '../lib/model/sick_list'
+require_relative '../lib/command/command_holder'
+require_relative '../lib/command/command_random_patient'
+require_relative '../lib/model/period'
 require 'time'
-require_relative 'model/gender'
-require_relative 'model/diagnosis'
+require_relative '../lib/model/gender'
+require_relative '../lib/model/diagnosis'
+require_relative '../lib/model/patient'
 
 def load_data
   csv_data = IOUtils.read_csv('polyclinic_log.csv', ';')
 
   csv_data.map do |element|
-    rawPeriod = element[3].strip.split(/\s+-\s+/)
+    raw_period = element[3].strip.split(/\s+-\s+/)
     gender = Gender.value_of(element[2].strip)
-    period = Period.new(Time.parse(rawPeriod[0]), Time.parse(rawPeriod[1]))
+    pacient = Patient.new(element[1], gender)
+    period = Period.new(Time.parse(raw_period[0]), Time.parse(raw_period[1]))
     diagnosis = Diagnosis.value_of(element[4])
-    SickList.new(element[0], element[1], gender, period, diagnosis, element[5])
+    SickList.new(element[0], pacient, period, diagnosis, element[5])
   end
 end
 

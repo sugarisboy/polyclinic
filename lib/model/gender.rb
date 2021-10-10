@@ -1,5 +1,7 @@
-class Gender
+# frozen_string_literal: true
 
+# Gender
+class Gender
   def initialize(code, str)
     @code = code
     @str = str
@@ -11,26 +13,27 @@ class Gender
 
   def self.value_of(char)
     char = char.downcase.strip
-    if char == "м"
+
+    case char
+    when 'м'
       Male
-    elsif char == "ж"
+    when 'ж'
       Female
     else
-      raise ArgumentError "Not valid symbol of sex = " + char
+      raise ArgumentError 'Not valid symbol of sex = '.concat(char)
     end
   end
 
-  def is_male?
+  def male?
     self == Male
   end
 
-  def is_female?
+  def female?
     self == Female
   end
 
-  Male = new(0, "Муж")
-  Female = new(1, "Жен")
+  Male = new(0, 'Муж')
+  Female = new(1, 'Жен')
 
   private_class_method :new
-
 end

@@ -1,7 +1,9 @@
-module Gui
+# frozen_string_literal: true
 
-  def Gui.print_welcome
-    print "
+# Module for work with GUI
+module Gui
+  def self.print_welcome
+    print '
 Добро пожаловать в анализитор больничных листов.
 Выберите необходимую услугу из следующего списка и
 введите номер необходимой услуги:
@@ -13,29 +15,26 @@ module Gui
   5. Максимальный и минимальный больничный
   6. Завершить работу
 
-Воспользоваться услугой №:"
+Воспользоваться услугой №:'
   end
 
-  def Gui.listen_numeric_code_from(success_codes)
+  def self.listen_numeric_code_from(success_codes)
     answer = readline
 
-    if answer == nil
-      return
-    end
+    return if answer.nil?
 
     answer = answer.to_i
 
-    if answer == 0
-      print "Данная команда не распознана, повторите ввод:"
+    if answer.zero?
+      print 'Данная команда не распознана, повторите ввод:'
       listen_numeric_code_from(success_codes)
     end
 
-    unless success_codes.include? answer
-      printf "Команда №%d не найдена, повторите ввод:" % answer
-      listen_numeric_code_from(success_codes)
-    else
+    if success_codes.include? answer
       answer
+    else
+      printf('Команда №%d не найдена, повторите ввод:', answer)
+      listen_numeric_code_from(success_codes)
     end
   end
-
 end
