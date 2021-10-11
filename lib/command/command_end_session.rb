@@ -13,6 +13,7 @@ class CommandEndSession < Command
     @name = 'Завершить работу'
   end
 
+  # not used
   def execute(_) end
 
   def end_session?

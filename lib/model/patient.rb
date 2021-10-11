@@ -10,12 +10,6 @@ class Patient
   end
 
   def to_s
-    format(
-      'Patient[' \
-      'fio=%s;' \
-      'gender=%s' \
-      ']',
-      fio, gender
-    )
+    "Patient[fio=#{fio};gender=#{gender}]"
   end
 end

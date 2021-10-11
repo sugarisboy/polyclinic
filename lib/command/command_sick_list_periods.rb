@@ -17,8 +17,10 @@ class CommandSickListPeriods < Command
     periods = data.map(&:period)
 
     avg_periods = avg_period(periods)
-    avg2020 = avg_period(select_year(periods, 2020))
-    avg2021 = avg_period(select_year(periods, 2021))
+
+    by_end_year = as_hash_by_end_year(periods)
+    avg2020 = avg_period(by_end_year[2020])
+    avg2021 = avg_period(by_end_year[2021])
 
     printf(
       "Средняя продолжительность больничного: %<all>.2f суток\n" \
@@ -34,8 +36,14 @@ class CommandSickListPeriods < Command
 
   private
 
-  def select_year(periods, year)
-    periods.select { |period| period.end_year?(year) }
+  def as_hash_by_end_year(periods)
+    hash = Hash.new { |h, key| h[key] = [] }
+
+    periods.each do |period|
+      hash[period.finish.year] << period
+    end
+
+    hash
   end
 
   def avg_period(periods)

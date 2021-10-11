@@ -19,7 +19,7 @@ module Gui
   end
 
   def self.listen_command_code(success_codes)
-    answer = readline
+    answer = gets
 
     return if answer.nil?
 
@@ -27,14 +27,14 @@ module Gui
 
     if answer.zero?
       print UNDEFINED_COMMAND
-      listen_command_code(success_codes)
+      return listen_command_code(success_codes)
     end
 
-    if success_codes.include? answer
-      answer
-    else
+    if !success_codes.include?(answer)
       printf(COMMAND_NOT_FOUND, answer)
-      listen_command_code(success_codes)
+      return listen_command_code(success_codes)
     end
+
+    answer
   end
 end

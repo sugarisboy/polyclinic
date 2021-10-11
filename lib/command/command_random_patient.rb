@@ -14,6 +14,18 @@ class CommandRandomPatient < Command
   end
 
   def execute(data)
-    puts data.sample.info
+    puts info(data.sample)
+  end
+
+  def info(sick_list)
+    fio = sick_list.patient.fio
+    gender = sick_list.patient.gender
+    per = sick_list.period
+    diagnosis = sick_list.diagnosis
+    num = sick_list.num
+
+    "#{fio} не имел#{gender.male? ? '' : 'а'} возможности посещать свое " \
+      "рабочее место в период с #{per.start_to_s} по #{per.finish_to_s} " \
+      "по причине #{diagnosis}, код листа нетрудоспособности #{num}." \
   end
 end

@@ -12,15 +12,12 @@ module IOUtils
   end
 
   def self.read_file(file_name)
-    local_path = format(
-      '%<data_dir>s/%<file_name>s',
-      { data_dir: DATA_DIR, file_name: file_name }
-    )
+    local_path = "#{DATA_DIR}/#{file_name}"
     path = File.expand_path(local_path, __dir__)
     File.read(path)
   end
 
   def self.colored(str)
-    format("\e[35m%s\e[0m", str)
+    format("\e[35m#{str}\e[0m")
   end
 end

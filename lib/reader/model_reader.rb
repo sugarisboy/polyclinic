@@ -15,11 +15,16 @@ module ModelReader
   DIAGNOSIS_CODE = 'Код причины нетрудоспособности'
   DOCTOR = 'Фамилия врача'
 
-  FILE = 'polyclinic_log_lazy.csv'
-  SEPARATOR = ';'
-
   PERIOD_NOT_VALID_FORMAT = 'Period must have format ' \
                             'YYYY-MM-DD - YYYY-MM-DD format'
+
+  GENDER_CONVERTER = {
+    Gender::INSTANCES[:male] => %w[М м],
+    Gender::INSTANCES[:female] => %w[Ж ж]
+  }.freeze
+
+  FILE = 'polyclinic_log.csv'
+  SEPARATOR = ';'
 
   def self.read
     csv_data = IOUtils.read_csv(FILE, SEPARATOR)
@@ -30,25 +35,29 @@ module ModelReader
       patient = parse_patient(row)
 
       SickList.new(
-        row[NUM],
+        row[NUM].strip,
         patient,
         period,
         diagnosis,
-        row[DOCTOR]
+        row[DOCTOR].strip
       )
     end
   end
 
-  def self.parse_patient(csv_line)
+  def self.parse_gender(csv_line)
     raw_gender = csv_line[GENDER].strip
-    gender = Gender.value_of(raw_gender)
+    GENDER_CONVERTER.find { |_, aliases| aliases.include?(raw_gender) }[0]
+  end
+
+  def self.parse_patient(csv_line)
     fio = csv_line[FIO]
+    gender = parse_gender(csv_line)
     Patient.new(fio, gender)
   end
 
   def self.parse_diagnosis(csv_line)
     raw_diagnosis = csv_line[DIAGNOSIS_CODE].strip
-    Diagnosis.value_of(raw_diagnosis)
+    Diagnosis.value_of(raw_diagnosis.to_i)
   end
 
   def self.parse_period(csv_line)

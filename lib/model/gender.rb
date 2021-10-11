@@ -2,38 +2,27 @@
 
 # Gender
 class Gender
-  def initialize(code, str)
+  private_class_method :new
+
+  def initialize(code, name)
     @code = code
-    @str = str
+    @name = name
   end
 
   def to_s
-    @str
-  end
-
-  def self.value_of(char)
-    char = char.downcase.strip
-
-    case char
-    when 'м'
-      Male
-    when 'ж'
-      Female
-    else
-      raise ArgumentError 'Not valid symbol of sex = '.concat(char)
-    end
+    @name
   end
 
   def male?
-    self == Male
+    self == INSTANCES[:male]
   end
 
   def female?
-    self == Female
+    self == INSTANCES[:female]
   end
 
-  Male = new(0, 'Муж')
-  Female = new(1, 'Жен')
-
-  private_class_method :new
+  INSTANCES = {
+    male: new(0, 'Муж'),
+    female: new(1, 'Жен')
+  }.freeze
 end

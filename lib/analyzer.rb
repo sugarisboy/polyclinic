@@ -28,18 +28,22 @@ class Analyzer
   def load_data
     puts IOUtils.colored('Загрузка данных начата')
     data = ModelReader.read
-    puts IOUtils.colored('Загрузка данных окончена')
+    puts IOUtils.colored("Загрузка данных окончена\n")
     data
   end
 
   def config_command_holder
+    commands = [
+      CommandRandomPatient.instance,
+      CommandListDoctors.instance,
+      CommandCountPatients.instance,
+      CommandSickListPeriods.instance,
+      CommandMaxMinSickList.instance,
+      CommandEndSession.instance
+    ]
+
     command_holder = CommandHolder.new
-    command_holder.add_command CommandRandomPatient.instance
-    command_holder.add_command CommandListDoctors.instance
-    command_holder.add_command CommandCountPatients.instance
-    command_holder.add_command CommandSickListPeriods.instance
-    command_holder.add_command CommandMaxMinSickList.instance
-    command_holder.add_command CommandEndSession.instance
+    command_holder.add_commands(commands)
     command_holder
   end
 
@@ -49,11 +53,12 @@ class Analyzer
 
     loop do
       Gui.print_welcome(commands_info)
-
       listened_numeric_code = Gui.listen_command_code(codes)
-      command = @command_holder
-                .find_by_numeric_code(listened_numeric_code)
-                .execute(@data)
+
+      break if listened_numeric_code.nil?
+
+      command = @command_holder.find_by_numeric_code(listened_numeric_code)
+      command.execute(@data)
 
       break if command.end_session?
     end

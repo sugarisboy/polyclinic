@@ -12,24 +12,15 @@ class Period
   end
 
   def start_to_s
-    time_to_s start
+    time_to_s(start)
   end
 
   def finish_to_s
-    time_to_s finish
+    time_to_s(finish)
   end
 
   def to_s
-    start = start_to_s
-    finish = finish_to_s
-    format(
-      'Period[start=%<start>s;finish=%<finish>s;diff=%<diff>s]',
-      {
-        start: start,
-        finish: finish,
-        diff: days_count
-      }
-    )
+    "Period[start=#{start_to_s};finish=#{finish_to_s};duration=#{days_count}]"
   end
 
   def end_year?(year)
