@@ -13,19 +13,11 @@ class CommandCountPatients < Command
     @name = 'Количество пациентов'
   end
 
-  def execute(data)
-    count = data.length
-    count_male = data.map(&:patient)
-                     .map(&:gender)
-                     .filter(&:male?)
-                     .length
-
-    count_female = count - count_male
-
+  def execute(lists)
     print(
-      "Всего пациентов: #{count}\n" \
-      "Пациентов мужчин: #{count_male}\n" \
-      "Пациентов женщин: #{count_female}\n"
+      "Всего пациентов: #{lists.patients_count}\n" \
+      "Пациентов мужчин: #{lists.patients_male_count}\n" \
+      "Пациентов женщин: #{lists.patients_female_count}\n"
     )
   end
 end

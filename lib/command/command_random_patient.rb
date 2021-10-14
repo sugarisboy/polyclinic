@@ -13,8 +13,8 @@ class CommandRandomPatient < Command
     @name = 'Случайный пациент'
   end
 
-  def execute(data)
-    puts info(data.sample)
+  def execute(lists)
+    puts info(lists.random)
   end
 
   def info(sick_list)

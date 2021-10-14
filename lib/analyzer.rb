@@ -13,6 +13,7 @@ require_relative 'command/command_count_patients'
 require_relative 'command/command_max_min_sick_list'
 require_relative 'command/command_random_patient'
 require_relative 'utils/gui'
+require_relative 'model/sick_lists'
 
 # Main module for this Application
 # Help you analyze data from polyclinic
@@ -20,7 +21,8 @@ class Analyzer
   include Singleton
 
   def init
-    @data = load_data
+    data = load_data
+    @lists = SickLists.new(data)
     @command_holder = config_command_holder
     to_user_control
   end
@@ -58,7 +60,7 @@ class Analyzer
       break if listened_numeric_code.nil?
 
       command = @command_holder.find_by_numeric_code(listened_numeric_code)
-      command.execute(@data)
+      command.execute(@lists)
 
       break if command.end_session?
     end

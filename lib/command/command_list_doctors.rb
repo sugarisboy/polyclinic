@@ -13,9 +13,8 @@ class CommandListDoctors < Command
     @name = 'Список врачей'
   end
 
-  def execute(data)
-    doctors = data.map(&:doctor).uniq
-    doctors.sort.each_with_index do |doctor, i|
+  def execute(lists)
+    lists.doctors.each_with_index do |doctor, i|
       printf(
         "%<index>4.d. %<doctor>s\n",
         {
